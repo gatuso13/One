@@ -1,772 +1,438 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+html_content = """<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="description" content="Ativação UniTV - Planos vitalícios com os melhores preços. Suporte 24/7 e instalação facilitada via Downloader.">
-    <meta name="keywords" content="UniTV, ativação UniTV, IPTV, TV Box, Downloader, códigos UniTV">
-    <meta name="author" content="UniTV Ativação">
-    <title>UniTV Ativação Oficial - Planos Vitalícios</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOLFF BOT - Painel de Gerenciamento</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* CSS Reset & Variáveis */
         :root {
-            --primary: #E50914;
-            --primary-dark: #B20710;
-            --primary-light: #ff3b44;
-            --secondary: #1a1a1a;
-            --bg: #0f0f0f;
-            --card-bg: #1e1e1e;
-            --text: #ffffff;
-            --text-muted: #b3b3b3;
-            --success: #25d366;
-            --success-dark: #128C7E;
-            --border: #333333;
-            --shadow: 0 10px 30px rgba(0,0,0,0.5);
-            --transition: all 0.3s ease;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--secondary);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 5px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 0 20px;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%);
-            background-size: cover;
-            background-position: center;
-            padding: 80px 20px;
-            text-align: center;
-            border-bottom: 3px solid var(--primary);
-            position: relative;
-        }
-
-        .hero h1 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            animation: fadeInUp 0.8s ease;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ===== CARROSSEL ===== */
-        .carousel-section {
-            margin: -40px auto 50px;
-            position: relative;
-            z-index: 2;
-        }
-        .carousel-container {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            background: #000;
-        }
-        .carousel-slides {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .carousel-slide {
-            min-width: 100%;
-        }
-        .carousel-slide img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-            aspect-ratio: 16/9;
-        }
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
-            transition: var(--transition);
-            z-index: 10;
-        }
-        .carousel-btn:hover {
-            background: var(--primary);
-        }
-        .carousel-btn.prev { left: 15px; }
-        .carousel-btn.next { right: 15px; }
-        .carousel-dots {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 10;
-        }
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .dot.active {
-            background: var(--primary);
-            width: 25px;
-            border-radius: 5px;
-        }
-
-        /* ===== COMPATIBILIDADE ===== */
-        .compatibility {
-            background: var(--card-bg);
-            padding: 35px;
-            border-radius: 20px;
-            margin: 50px 0;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-        .compatibility:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-        }
-        .compatibility h2 {
-            font-family: 'Oswald', sans-serif;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.8rem;
-        }
-        .comp-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-        }
-        .comp-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            transition: var(--transition);
-        }
-        .comp-item:hover {
-            background: rgba(229,9,20,0.1);
-            transform: translateX(5px);
-        }
-        .comp-icon {
-            font-size: 2rem;
-        }
-        .comp-text b {
-            font-family: 'Oswald', sans-serif;
-            color: var(--primary);
-            display: block;
-            font-size: 1.1rem;
-        }
-        .comp-text span {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* ===== PLANOS ===== */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
-        .plan-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px 25px;
-            position: relative;
-            transition: var(--transition);
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-        .plan-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: var(--shadow);
-        }
-        .plan-card.popular {
-            border: 2px solid var(--primary);
-            transform: scale(1.02);
-        }
-        .badge {
-            font-family: 'Oswald', sans-serif;
-            background: var(--primary);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-        .plan-card h3 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-        .price {
-            font-family: 'Oswald', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 15px 0;
-        }
-        .price small {
-            font-size: 1rem;
-            color: var(--text-muted);
-        }
-        .features {
-            list-style: none;
-            text-align: left;
-            margin: 25px 0;
-        }
-        .features li {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .features li i {
-            color: var(--success);
-            width: 20px;
-        }
-        .btn-select {
-            font-family: 'Oswald', sans-serif;
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            padding: 14px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            width: 100%;
-            border: none;
-            cursor: pointer;
-            text-align: center;
-        }
-        .btn-select:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(229,9,20,0.4);
-        }
-
-        /* ===== DEPOIMENTOS ===== */
-        .testimonials {
-            margin: 60px 0;
-        }
-        .testimonials h2 {
-            text-align: center;
-            font-family: 'Oswald', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 40px;
-        }
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-        }
-        .testimonial-card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-        .testimonial-card i {
-            color: var(--primary);
-            font-size: 2rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 15px;
-            color: var(--text-muted);
-        }
-        .testimonial-author {
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        /* ===== DOWNLOADER ===== */
-        .downloader-section {
-            background: linear-gradient(135deg, var(--secondary) 0%, #0a0a0a 100%);
-            padding: 50px;
-            border-radius: 20px;
-            margin: 50px 0;
-            border: 1px solid var(--border);
-        }
-        .downloader-section h2 {
-            font-family: 'Oswald', sans-serif;
-            text-align: center;
-            color: var(--primary);
-            margin-bottom: 30px;
-        }
-        .steps {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        .step {
-            text-align: center;
-            flex: 1;
-            min-width: 150px;
-        }
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.5rem;
-            margin: 0 auto 15px;
-        }
-        .code-box {
-            background: #000;
-            color: #00ff00;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-family: monospace;
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: inline-block;
-            margin: 10px 0;
-            border: 1px solid var(--primary);
-            letter-spacing: 2px;
-        }
-        .btn-download-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: transparent;
-            color: var(--text);
-            border: 1px solid var(--primary);
-            text-decoration: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            transition: var(--transition);
-            margin-top: 10px;
-        }
-        .btn-download-link:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* ===== FAQ ===== */
-        .faq {
-            margin: 60px 0;
-        }
-        .faq h2 {
-            text-align: center;
-            font-family: 'Oswald', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 40px;
-        }
-        .faq-grid {
-            display: grid;
-            gap: 15px;
-        }
-        .faq-item {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        .faq-question i {
-            transition: var(--transition);
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            color: var(--text-muted);
-            padding-top: 0;
-        }
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-            padding-top: 15px;
-        }
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg);
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid var(--border);
-            margin-top: 50px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        /* ===== BOTÕES FLUTUANTES ===== */
-        .btn-whatsapp {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: var(--success);
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            z-index: 1000;
-            transition: var(--transition);
-        }
-        .btn-whatsapp:hover {
-            transform: scale(1.1);
-            background: var(--success-dark);
-        }
-
-        .btn-top {
-            position: fixed;
-            bottom: 100px;
-            right: 25px;
-            background: var(--primary);
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            z-index: 1000;
-        }
-        .btn-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        .btn-top:hover {
-            background: var(--primary-dark);
-            transform: translateY(-3px);
-        }
-
-        /* ===== RESPONSIVO ===== */
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --sidebar-bg: #111827;
+            --sidebar-text: #D1D5DB;
+            --sidebar-hover: #1F2937;
+            --bg: #F3F4F6;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+            --success: #10B981;
+            --danger: #EF4444;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { display: flex; height: 100vh; background-color: var(--bg); color: var(--text-main); overflow: hidden; }
+        
+        /* Menu Lateral (Sidebar) */
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: white; display: flex; flex-direction: column; transition: transform 0.3s ease; }
+        .sidebar-header { padding: 25px 20px; font-size: 22px; font-weight: bold; border-bottom: 1px solid #374151; text-align: center; color: white; letter-spacing: 2px;}
+        .menu { list-style: none; padding: 10px 0; flex: 1; overflow-y: auto; }
+        .menu li { padding: 0; }
+        .menu a { display: flex; align-items: center; padding: 15px 25px; color: var(--sidebar-text); text-decoration: none; transition: 0.2s; cursor: pointer; font-size: 15px;}
+        .menu a:hover, .menu a.active { background-color: var(--sidebar-hover); color: white; border-left: 4px solid var(--primary); }
+        .menu a i { margin-right: 15px; font-style: normal; width: 25px; text-align: center; font-size: 18px;}
+        
+        /* Conteúdo Principal */
+        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: var(--card-bg); padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .mobile-toggle { display: none; background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text-main); }
+        .content { flex: 1; padding: 30px; overflow-y: auto; }
+        
+        /* Seções */
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .section-title { font-size: 26px; font-weight: 600; margin-bottom: 25px; color: var(--text-main); }
+        
+        /* Grid e Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; margin-bottom: 25px; }
+        .card { background: var(--card-bg); padding: 25px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        .card-title { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;}
+        .card-value { font-size: 32px; font-weight: bold; color: var(--text-main);}
+        
+        /* Formulários */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; color: var(--text-main); }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 15px; background: #F9FAFB; transition: 0.2s;}
+        .form-control:focus { outline: none; border-color: var(--primary); background: #FFF; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+        textarea.form-control { resize: vertical; min-height: 90px; }
+        
+        /* Botões */
+        .btn { padding: 12px 20px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center;}
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #DC2626; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-outline:hover { background: var(--bg); }
+        
+        /* Botões Toggle (Switch) */
+        .switch-wrapper { display: flex; align-items: center; justify-content: space-between; font-size: 15px;}
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #D1D5DB; transition: .4s; border-radius: 26px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.2);}
+        input:checked + .slider { background-color: var(--success); }
+        input:checked + .slider:before { transform: translateX(24px); }
+        
+        /* Lista de Aplicativos */
+        .app-item { display: flex; align-items: center; justify-content: space-between; padding: 20px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 15px; background: #FAFAFA; transition: 0.2s;}
+        .app-item:hover { border-color: #D1D5DB; background: #FFF; }
+        .app-info { display: flex; align-items: center; gap: 15px; font-weight: 500; font-size: 16px; color: var(--text-main);}
+        
+        /* Lista de Mensagens */
+        .msg-item { border: 1px solid var(--border); padding: 20px; border-radius: 8px; margin-bottom: 15px; background: #FAFAFA;}
+        .msg-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: 600; font-size: 16px; }
+        .msg-text { color: var(--text-muted); font-size: 15px; line-height: 1.5; background: #FFF; padding: 15px; border-radius: 6px; border: 1px solid var(--border);}
+        
+        /* Responsividade (Mobile) */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .pricing-grid { gap: 20px; }
-            .plan-card.popular { transform: scale(1); }
-            .downloader-section { padding: 30px 20px; }
-            .carousel-btn { width: 35px; height: 35px; font-size: 1rem; }
+            .sidebar { position: fixed; z-index: 100; height: 100%; transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: 4px 0 15px rgba(0,0,0,0.1); }
+            .mobile-toggle { display: block; }
+            .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; backdrop-filter: blur(2px);}
+            .overlay.active { display: block; }
+            .header { padding: 15px 20px; }
+            .content { padding: 20px; }
+            .grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+    
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    
+    <!-- MENU LATERAL -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">WOLFF BOT</div>
+        <ul class="menu">
+            <li><a onclick="nav('dashboard')" class="active" id="nav-dashboard"><i>📊</i> Dashboard</a></li>
+            <li><a onclick="nav('meu-robo')" id="nav-meu-robo"><i>🤖</i> Meu Robô</a></li>
+            <li><a onclick="nav('mensagens')" id="nav-mensagens"><i>💬</i> Mensagens</a></li>
+            <li><a onclick="nav('aplicativos')" id="nav-aplicativos"><i>📱</i> Aplicativos</a></li>
+            <li><a onclick="nav('regras')" id="nav-regras"><i>⚙️</i> Regras</a></li>
+            <li><a onclick="nav('perfil')" id="nav-perfil"><i>👤</i> Meu Perfil</a></li>
+            <li style="margin-top: auto;"><a onclick="alert('Sessão encerrada com sucesso!')" style="color: #FCA5A5;"><i>🚪</i> Sair</a></li>
+        </ul>
+    </aside>
 
-    <!-- ===== HERO ===== -->
-    <div class="hero">
-        <div class="container">
-            <h1>🔥 ATIVAÇÃO UNITV</h1>
-            <p>A melhor experiência em streaming na sua tela - Ativação Vitalícia com Suporte Premium</p>
-        </div>
-    </div>
-
-    <div class="container">
-
-        <!-- ===== CARROSSEL ===== -->
-        <div class="carousel-section">
-            <div class="carousel-container">
-                <div class="carousel-slides">
-                    <div class="carousel-slide">
-                        <img src="https://i.ibb.co/LdB29HrL/img3.jpg" alt="UniTV Interface 1">
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main">
+        <header class="header">
+            <button class="mobile-toggle" onclick="toggleMenu()">☰</button>
+            <div style="font-weight: 500; color: var(--text-muted);">Painel de Controle</div>
+            <div style="display: flex; gap: 8px; align-items: center; background: #F3F4F6; padding: 6px 12px; border-radius: 20px; border: 1px solid #E5E7EB;">
+                <span id="global-status" style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--success); box-shadow: 0 0 5px var(--success);"></span>
+                <span id="global-status-text" style="font-size: 13px; font-weight: 600;">Sistema Online</span>
+            </div>
+        </header>
+        
+        <div class="content">
+            
+            <!-- 1. DASHBOARD -->
+            <div id="dashboard" class="section active">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                    <h1 class="section-title" style="margin: 0;">Visão Geral</h1>
+                    <button class="btn btn-primary" onclick="alert('Configurações do painel salvas!')">💾 Salvar Configurações</button>
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-title">Status do Robô</div>
+                        <div class="switch-wrapper" style="margin-top: 15px;">
+                            <span class="card-value" id="status-display" style="color: var(--success);">Online</span>
+                            <label class="switch">
+                                <input type="checkbox" checked id="bot-toggle" onchange="toggleBotStatus()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="carousel-slide">
-                        <img src="https://i.ibb.co/84mPcCwK/img2.jpg" alt="UniTV Interface 2">
+                    <div class="card">
+                        <div class="card-title">Aplicativos Conectados</div>
+                        <div class="card-value">3 / 4</div>
                     </div>
-                    <div class="carousel-slide">
-                        <img src="https://i.ibb.co/W4sDZFxK/img5.jpg" alt="UniTV Interface 3">
+                    <div class="card">
+                        <div class="card-title">Mensagens Hoje</div>
+                        <div class="card-value">1.492</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Respostas Automáticas</div>
+                        <div class="card-value">1.380</div>
                     </div>
                 </div>
-                <button class="carousel-btn prev" aria-label="Anterior">❮</button>
-                <button class="carousel-btn next" aria-label="Próximo">❯</button>
-                <div class="carousel-dots">
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
+            </div>
+
+            <!-- 2. CONFIGURAÇÃO DO ROBÔ -->
+            <div id="meu-robo" class="section">
+                <h1 class="section-title">Configurações do Robô</h1>
+                <div class="card" style="max-width: 700px;">
+                    <div class="form-group">
+                        <label>Nome da Empresa</label>
+                        <input type="text" class="form-control" value="Empresa Exemplo LTDA">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome do Robô</label>
+                        <input type="text" class="form-control" value="Wolff">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome do Atendente (Humano)</label>
+                        <input type="text" class="form-control" value="Atendimento Principal">
+                    </div>
+                    <div class="form-group">
+                        <label>Mensagem de Boas-vindas</label>
+                        <textarea class="form-control">Olá! Sou o Wolff, assistente virtual. Como posso te ajudar hoje? Escolha uma das opções abaixo...</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensagem de Encerramento</label>
+                        <textarea class="form-control">Agradecemos o seu contato! Se precisar de mais alguma coisa, é só chamar. Tenha um ótimo dia!</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensagem Fora do Horário</label>
+                        <textarea class="form-control">No momento estamos fora do nosso horário de atendimento. Deixe sua mensagem e retornaremos assim que possível.</textarea>
+                    </div>
+                    <hr style="border:0; border-top: 1px solid var(--border); margin: 25px 0;">
+                    <button class="btn btn-primary" onclick="alert('Dados do seu robô foram atualizados com sucesso!')">Atualizar Dados do Robô</button>
                 </div>
             </div>
-        </div>
-
-        <!-- ===== COMPATIBILIDADE ===== -->
-        <div class="compatibility">
-            <h2><i class="fas fa-tv" style="color: var(--primary);"></i> DISPOSITIVOS SUPORTADOS</h2>
-            <div class="comp-grid">
-                <div class="comp-item"><div class="comp-icon"><i class="fas fa-mobile-alt"></i></div><div class="comp-text"><b>Celulares</b><span>Android Universal</span></div></div>
-                <div class="comp-item"><div class="comp-icon"><i class="fas fa-tablet-alt"></i></div><div class="comp-text"><b>Tablets</b><span>Todos os modelos</span></div></div>
-                <div class="comp-item"><div class="comp-icon"><i class="fas fa-tv"></i></div><div class="comp-text"><b>TV Box</b><span>Todos os modelos</span></div></div>
-                <div class="comp-item"><div class="comp-icon"><i class="fas fa-desktop"></i></div><div class="comp-text"><b>Smart TV</b><span>Android TV / Google TV</span></div></div>
-            </div>
-        </div>
-
-        <!-- ===== PLANOS ===== -->
-        <div class="pricing-grid">
-            <div class="plan-card">
-                <h3>BÁSICO</h3>
-                <div class="price">R$ 50,00<small>/vitalício</small></div>
-                <ul class="features">
-                    <li><i class="fas fa-check-circle"></i> 1 Dispositivo</li>
-                    <li><i class="fas fa-check-circle"></i> Acesso Vitalício</li>
-                    <li><i class="fas fa-check-circle"></i> Suporte Básico</li>
-                    <li><i class="fas fa-check-circle"></i> Instalação facilitada</li>
-                </ul>
-                <a href="https://wa.me/556192823929?text=Olá! Gostaria do Plano BÁSICO (R$50,00)" class="btn-select"><i class="fab fa-whatsapp"></i> Quero este</a>
-            </div>
-            <div class="plan-card popular">
-                <div class="badge">🔥 MAIS VENDIDO</div>
-                <h3>PREMIUM</h3>
-                <div class="price">R$ 85,00<small>/vitalício</small></div>
-                <ul class="features">
-                    <li><i class="fas fa-check-circle"></i> 2 Dispositivos</li>
-                    <li><i class="fas fa-check-circle"></i> Acesso Vitalício</li>
-                    <li><i class="fas fa-check-circle"></i> Suporte Prioritário</li>
-                    <li><i class="fas fa-check-circle"></i> Atualizações Grátis</li>
-                </ul>
-                <a href="https://wa.me/556192823929?text=Olá! Gostaria do Plano PREMIUM (R$85,00)" class="btn-select"><i class="fab fa-whatsapp"></i> Quero este</a>
-            </div>
-            <div class="plan-card">
-                <div class="badge">💎 MELHOR CUSTO</div>
-                <h3>VIP</h3>
-                <div class="price">R$ 160,00<small>/vitalício</small></div>
-                <ul class="features">
-                    <li><i class="fas fa-check-circle"></i> 4 Dispositivos</li>
-                    <li><i class="fas fa-check-circle"></i> Acesso Vitalício</li>
-                    <li><i class="fas fa-check-circle"></i> Suporte VIP 24/7</li>
-                    <li><i class="fas fa-check-circle"></i> Conteúdo Exclusivo</li>
-                </ul>
-                <a href="https://wa.me/556192823929?text=Olá! Gostaria do Plano VIP (R$160,00)" class="btn-select"><i class="fab fa-whatsapp"></i> Quero este</a>
-            </div>
-        </div>
-
-        <!-- ===== DEPOIMENTOS ===== -->
-        <div class="testimonials">
-            <h2><i class="fas fa-star" style="color: var(--primary);"></i> O que nossos clientes dizem</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <i class="fas fa-quote-left"></i>
-                    <div class="testimonial-text">"Serviço excelente! Ativação rápida e suporte muito atencioso. Recomendo demais!"</div>
-                    <div class="testimonial-author">- Carlos S.</div>
+            
+            <!-- 3. APLICATIVOS -->
+            <div id="aplicativos" class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                    <h1 class="section-title" style="margin: 0;">Aplicativos Integrados</h1>
+                    <button class="btn btn-danger" onclick="disableAllApps()">Desativar Todos</button>
                 </div>
-                <div class="testimonial-card">
-                    <i class="fas fa-quote-left"></i>
-                    <div class="testimonial-text">"Funciona perfeitamente na minha TV Box. Melhor custo-benefício que já vi."</div>
-                    <div class="testimonial-author">- Mariana F.</div>
-                </div>
-                <div class="testimonial-card">
-                    <i class="fas fa-quote-left"></i>
-                    <div class="testimonial-text">"Suporte via WhatsApp muito rápido. Em 5 minutos já estava tudo funcionando!"</div>
-                    <div class="testimonial-author">- Rodrigo L.</div>
+                
+                <div class="card" style="max-width: 700px; padding: 25px;">
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Ligue ou desligue o robô individualmente em cada canal de atendimento.</p>
+                    
+                    <div class="app-item">
+                        <div class="app-info">🟢 WhatsApp Pessoal</div>
+                        <label class="switch"><input type="checkbox" class="app-toggle" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="app-item">
+                        <div class="app-info">🟢 WhatsApp Business</div>
+                        <label class="switch"><input type="checkbox" class="app-toggle" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="app-item">
+                        <div class="app-info">🔵 Telegram</div>
+                        <label class="switch"><input type="checkbox" class="app-toggle" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="app-item">
+                        <div class="app-info">🟣 Outros Canais (Instagram/Messenger)</div>
+                        <label class="switch"><input type="checkbox" class="app-toggle"><span class="slider"></span></label>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ===== DOWNLOADER ===== -->
-        <div class="downloader-section">
-            <h2><i class="fas fa-download"></i> Como Instalar pelo Downloader</h2>
-            <div class="steps">
-                <div class="step"><div class="step-number">1</div><div>Abra o <strong>Downloader</strong> na sua TV/Box</div></div>
-                <div class="step"><div class="step-number">2</div><div>Digite o código e baixe</div></div>
-                <div class="step"><div class="step-number">3</div><div>Instale e ative com a gente</div></div>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; text-align: center;">
-                <div>
-                    <p><strong style="color: var(--primary);">📌 ATIVADOR:</strong></p>
-                    <div class="code-box">9671325</div><br>
-                    <a href="https://tvbr.ovh/downloads/Ativador-REV-UPDATE.apk" class="btn-download-link"><i class="fas fa-download"></i> Baixar APK</a>
+            <!-- 4. REGRAS -->
+            <div id="regras" class="section">
+                <h1 class="section-title">Regras e Comportamentos</h1>
+                <div class="grid">
+                    <!-- Card 1 -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 20px; color: var(--primary);">🤖 Lógicas do Robô</h3>
+                        
+                        <div class="switch-wrapper" style="margin-bottom: 20px;">
+                            <span>Não enviar mensagens repetidas</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="switch-wrapper" style="margin-bottom: 20px;">
+                            <span>Ativar respostas automáticas</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="switch-wrapper" style="margin-bottom: 20px;">
+                            <span>Pausar o robô (Modo Silencioso)</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="switch-wrapper" style="margin-bottom: 20px;">
+                            <span>Permitir encaminhar p/ Humano</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 20px; color: var(--primary);">⏱️ Tempos e Limites</h3>
+                        
+                        <div class="form-group">
+                            <label>Esperar antes de responder (segundos)</label>
+                            <input type="number" class="form-control" value="3">
+                        </div>
+                        <div class="form-group">
+                            <label>Intervalo mínimo entre respostas (segundos)</label>
+                            <input type="number" class="form-control" value="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Limite de mensagens por conversa</label>
+                            <input type="number" class="form-control" value="50">
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 20px; color: var(--primary);">🕒 Horário de Funcionamento</h3>
+                        
+                        <div class="form-group">
+                            <label>Início do Expediente</label>
+                            <input type="time" class="form-control" value="08:00">
+                        </div>
+                        <div class="form-group">
+                            <label>Fim do Expediente</label>
+                            <input type="time" class="form-control" value="18:00">
+                        </div>
+                        <div class="switch-wrapper" style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 15px;">
+                            <span>Atender finais de semana</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <p><strong style="color: var(--primary);">📺 UNITV FREE 5.5.0:</strong></p>
-                    <div class="code-box">7693157</div><br>
-                    <a href="https://tvbr.ovh/downloads/UniTV_Free_5.5.0.apk" class="btn-download-link"><i class="fas fa-download"></i> Baixar APK</a>
+                <button class="btn btn-primary" onclick="alert('As regras do robô foram atualizadas e aplicadas!')">Salvar Regras do Robô</button>
+            </div>
+
+            <!-- 5. MENSAGENS PRONTAS -->
+            <div id="mensagens" class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                    <h1 class="section-title" style="margin: 0;">Mensagens Prontas</h1>
+                    <button class="btn btn-success">+ Nova Mensagem</button>
+                </div>
+
+                <div class="card" style="max-width: 900px;">
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Cadastre mensagens rápidas para utilizar em menus ou gatilhos específicos.</p>
+                    
+                    <div class="msg-item">
+                        <div class="msg-item-header">
+                            <span style="color: var(--primary);">📌 Saudação Inicial</span>
+                            <div>
+                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 13px;">Editar</button>
+                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 13px; color: var(--danger); border-color: var(--danger);">Excluir</button>
+                            </div>
+                        </div>
+                        <div class="msg-text">Olá, seja bem-vindo(a) ao nosso atendimento! Sobre o que deseja falar? Digite o número da opção desejada.</div>
+                    </div>
+
+                    <div class="msg-item">
+                        <div class="msg-item-header">
+                            <span style="color: var(--primary);">👩‍💻 Transferência para Humano</span>
+                            <div>
+                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 13px;">Editar</button>
+                            </div>
+                        </div>
+                        <div class="msg-text">Vou transferir você para um de nossos especialistas. Por favor, aguarde um instante na linha.</div>
+                    </div>
+
+                    <div class="msg-item">
+                        <div class="msg-item-header">
+                            <span style="color: var(--primary);">🌙 Aviso Fora do Horário</span>
+                            <div>
+                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 13px;">Editar</button>
+                            </div>
+                        </div>
+                        <div class="msg-text">Nosso horário de atendimento é de segunda a sexta, das 08h às 18h. Deixe sua mensagem detalhada que responderemos no próximo dia útil!</div>
+                    </div>
+
+                    <div class="msg-item">
+                        <div class="msg-item-header">
+                            <span style="color: var(--primary);">👋 Mensagem de Encerramento</span>
+                            <div>
+                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 13px;">Editar</button>
+                            </div>
+                        </div>
+                        <div class="msg-text">Atendimento encerrado com sucesso. Muito obrigado pelo contato e tenha um ótimo dia!</div>
+                    </div>
                 </div>
             </div>
-            <p style="text-align: center; margin-top: 30px; font-size: 0.85rem; color: var(--text-muted);"><i class="fas fa-shield-alt"></i> Arquivos seguros e testados</p>
-        </div>
 
-        <!-- ===== FAQ ===== -->
-        <div class="faq">
-            <h2><i class="fas fa-question-circle"></i> Dúvidas Frequentes</h2>
-            <div class="faq-grid">
-                <div class="faq-item"><div class="faq-question">Como recebo o acesso após o pagamento? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Após o pagamento, você receberá o código de ativação e o guia completo pelo WhatsApp em até 5 minutos.</div></div>
-                <div class="faq-item"><div class="faq-question">Funciona em qualquer TV Box? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Sim! Compatível com todas as TV Box Android, Smart TVs Android, celulares e tablets.</div></div>
-                <div class="faq-item"><div class="faq-question">Precisa de mensalidade depois? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Não! Nosso plano é vitalício, você paga uma única vez e tem acesso para sempre.</div></div>
-                <div class="faq-item"><div class="faq-question">O suporte é incluso? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Sim! Todos os planos incluem suporte. Planos Premium e VIP têm atendimento prioritário.</div></div>
+            <!-- 6. MEU PERFIL -->
+            <div id="perfil" class="section">
+                <h1 class="section-title">Meu Perfil de Acesso</h1>
+                <div class="card" style="max-width: 600px;">
+                    <div class="form-group">
+                        <label>Nome Completo</label>
+                        <input type="text" class="form-control" value="Administrador Sistema">
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail de Login</label>
+                        <input type="email" class="form-control" value="admin@wolffbot.com.br">
+                    </div>
+                    <hr style="border:0; border-top: 1px solid var(--border); margin: 25px 0;">
+                    <div class="form-group">
+                        <label>Alterar Senha</label>
+                        <input type="password" class="form-control" placeholder="Digite apenas se desejar alterar">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar Nova Senha</label>
+                        <input type="password" class="form-control" placeholder="Confirme a nova senha">
+                    </div>
+                    <button class="btn btn-primary" onclick="alert('Perfil atualizado com sucesso!')">Atualizar Dados da Conta</button>
+                </div>
             </div>
+
         </div>
+    </main>
 
-    </div>
-
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <p>© 2025 UniTV Ativação Oficial - Todos os direitos reservados</p>
-        <p style="font-size: 0.7rem; margin-top: 10px;">Ativação de serviços para dispositivos Android</p>
-    </footer>
-
-    <!-- ===== WHATSAPP FLUTUANTE ===== -->
-    <a href="https://wa.me/556192823929" class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-whatsapp" style="font-size: 32px;"></i>
-    </a>
-
-    <!-- ===== BOTÃO TOPO ===== -->
-    <div class="btn-top" id="btnTop">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-
-    <!-- ===== SCRIPT ===== -->
     <script>
-        // Carrossel
-        const slides = document.querySelector('.carousel-slides');
-        const slideItems = document.querySelectorAll('.carousel-slide');
-        const prevBtn = document.querySelector('.carousel-btn.prev');
-        const nextBtn = document.querySelector('.carousel-btn.next');
-        const dots = document.querySelectorAll('.dot');
-
-        let currentIndex = 0;
-        const totalSlides = slideItems.length;
-
-        function updateCarousel() {
-            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentIndex);
-            });
-        }
-
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateCarousel();
-        }
-
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            updateCarousel();
-        }
-
-        if (nextBtn && prevBtn) {
-            nextBtn.addEventListener('click', nextSlide);
-            prevBtn.addEventListener('click', prevSlide);
-            dots.forEach((dot, i) => {
-                dot.addEventListener('click', () => {
-                    currentIndex = i;
-                    updateCarousel();
-                });
-            });
-        }
-
-        // FAQ accordion
-        const faqItems = document.querySelectorAll('.faq-item');
-        faqItems.forEach(item => {
-            item.addEventListener('click', () => {
-                item.classList.toggle('active');
-            });
-        });
-
-        // Botão Voltar ao Topo
-        const btnTop = document.getElementById('btnTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                btnTop.classList.add('show');
-            } else {
-                btnTop.classList.remove('show');
+        // Função de Navegação
+        function nav(sectionId) {
+            // Oculta todas as seções
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            // Remove a classe active dos links do menu
+            document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
+            
+            // Mostra a seção selecionada
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById('nav-' + sectionId).classList.add('active');
+            
+            // No mobile, fecha o menu após clicar
+            if (window.innerWidth <= 768) {
+                toggleMenu();
             }
-        });
-        btnTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+        }
 
+        // Função de abrir/fechar Menu Mobile
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        // Lógica de Ativar/Desativar Robô (Status Visual)
+        function toggleBotStatus() {
+            const toggle = document.getElementById('bot-toggle');
+            const display = document.getElementById('status-display');
+            const globalStatus = document.getElementById('global-status');
+            const globalText = document.getElementById('global-status-text');
+
+            if(toggle.checked) {
+                display.textContent = 'Online';
+                display.style.color = 'var(--success)';
+                globalStatus.style.background = 'var(--success)';
+                globalStatus.style.boxShadow = '0 0 5px var(--success)';
+                globalText.textContent = 'Sistema Online';
+            } else {
+                display.textContent = 'Offline';
+                display.style.color = 'var(--danger)';
+                globalStatus.style.background = 'var(--danger)';
+                globalStatus.style.boxShadow = '0 0 5px var(--danger)';
+                globalText.textContent = 'Sistema Offline (Pausado)';
+            }
+        }
+
+        // Lógica para desativar todos os apps
+        function disableAllApps() {
+            if(confirm("Tem certeza que deseja desativar o robô em todos os aplicativos?")) {
+                const toggles = document.querySelectorAll('.app-toggle');
+                toggles.forEach(t => t.checked = false);
+                alert('Todos os aplicativos foram desativados com sucesso!');
+            }
+        }
+    </script>
 </body>
-</html>
+</html>"""
+
+with open('wolff_bot_prototipo.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+    
+print("File wolff_bot_prototipo.html has been generated.")
