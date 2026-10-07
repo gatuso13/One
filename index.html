@@ -1,438 +1,171 @@
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WOLFF BOT - Painel de Gerenciamento</title>
+    <title>PlayDigital | Entretenimento Premium</title>
+    <!-- Fontes do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Ícones FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* CSS Reset & Variáveis */
+        /* Reset e Variáveis */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         :root {
-            --primary: #4F46E5;
-            --primary-hover: #4338CA;
-            --sidebar-bg: #111827;
-            --sidebar-text: #D1D5DB;
-            --sidebar-hover: #1F2937;
-            --bg: #F3F4F6;
-            --card-bg: #FFFFFF;
-            --text-main: #1F2937;
-            --text-muted: #6B7280;
-            --border: #E5E7EB;
-            --success: #10B981;
-            --danger: #EF4444;
+            --bg-color: #0b0914;
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --whatsapp: #25D366;
+            --text-light: #f8fafc;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { display: flex; height: 100vh; background-color: var(--bg); color: var(--text-main); overflow: hidden; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at top right, #2a1454, transparent 40%),
+                              radial-gradient(circle at bottom left, #3b0764, transparent 40%);
+        }
+
+        /* Animações */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 
+                           70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 
+                           100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+
+        /* Cabeçalho */
+        header { padding: 20px 5%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo { font-size: 1.8rem; font-weight: 800; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; color: transparent; }
+
+        /* Container Principal */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 5%;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .headline { font-size: 2.5rem; font-weight: 800; margin-bottom: 15px; line-height: 1.2; }
+        .headline span { color: var(--secondary); }
+        .subheadline { font-size: 1.1rem; color: #cbd5e1; margin-bottom: 40px; max-width: 600px; }
+
+        /* Container do Vídeo (Estilo Vidro/Glassmorphism) */
+        .video-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin-bottom: 40px;
+            animation: float 6s ease-in-out infinite;
+        }
         
-        /* Menu Lateral (Sidebar) */
-        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: white; display: flex; flex-direction: column; transition: transform 0.3s ease; }
-        .sidebar-header { padding: 25px 20px; font-size: 22px; font-weight: bold; border-bottom: 1px solid #374151; text-align: center; color: white; letter-spacing: 2px;}
-        .menu { list-style: none; padding: 10px 0; flex: 1; overflow-y: auto; }
-        .menu li { padding: 0; }
-        .menu a { display: flex; align-items: center; padding: 15px 25px; color: var(--sidebar-text); text-decoration: none; transition: 0.2s; cursor: pointer; font-size: 15px;}
-        .menu a:hover, .menu a.active { background-color: var(--sidebar-hover); color: white; border-left: 4px solid var(--primary); }
-        .menu a i { margin-right: 15px; font-style: normal; width: 25px; text-align: center; font-size: 18px;}
-        
-        /* Conteúdo Principal */
-        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        .header { background: var(--card-bg); padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .mobile-toggle { display: none; background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text-main); }
-        .content { flex: 1; padding: 30px; overflow-y: auto; }
-        
-        /* Seções */
-        .section { display: none; animation: fadeIn 0.4s ease; }
-        .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .section-title { font-size: 26px; font-weight: 600; margin-bottom: 25px; color: var(--text-main); }
-        
-        /* Grid e Cards */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; margin-bottom: 25px; }
-        .card { background: var(--card-bg); padding: 25px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); border: 1px solid var(--border); }
-        .card-title { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;}
-        .card-value { font-size: 32px; font-weight: bold; color: var(--text-main);}
-        
-        /* Formulários */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; color: var(--text-main); }
-        .form-control { width: 100%; padding: 12px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 15px; background: #F9FAFB; transition: 0.2s;}
-        .form-control:focus { outline: none; border-color: var(--primary); background: #FFF; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
-        textarea.form-control { resize: vertical; min-height: 90px; }
-        
-        /* Botões */
-        .btn { padding: 12px 20px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center;}
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-hover); }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-danger:hover { background: #DC2626; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
-        .btn-outline:hover { background: var(--bg); }
-        
-        /* Botões Toggle (Switch) */
-        .switch-wrapper { display: flex; align-items: center; justify-content: space-between; font-size: 15px;}
-        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #D1D5DB; transition: .4s; border-radius: 26px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.2);}
-        input:checked + .slider { background-color: var(--success); }
-        input:checked + .slider:before { transform: translateX(24px); }
-        
-        /* Lista de Aplicativos */
-        .app-item { display: flex; align-items: center; justify-content: space-between; padding: 20px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 15px; background: #FAFAFA; transition: 0.2s;}
-        .app-item:hover { border-color: #D1D5DB; background: #FFF; }
-        .app-info { display: flex; align-items: center; gap: 15px; font-weight: 500; font-size: 16px; color: var(--text-main);}
-        
-        /* Lista de Mensagens */
-        .msg-item { border: 1px solid var(--border); padding: 20px; border-radius: 8px; margin-bottom: 15px; background: #FAFAFA;}
-        .msg-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: 600; font-size: 16px; }
-        .msg-text { color: var(--text-muted); font-size: 15px; line-height: 1.5; background: #FFF; padding: 15px; border-radius: 6px; border: 1px solid var(--border);}
-        
-        /* Responsividade (Mobile) */
+        /* Ajuste do iframe para Shorts (vertical) */
+        iframe {
+            width: 315px;
+            height: 560px;
+            border-radius: 15px;
+            border: none;
+        }
+
+        /* Botão WhatsApp */
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--whatsapp);
+            color: #fff;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-decoration: none;
+            border-radius: 50px;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+        .btn-whatsapp:hover { filter: brightness(1.1); transform: scale(1.05); }
+
+        /* Benefícios (Sem preço, focando na qualidade) */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 50px 10%;
+            background: rgba(0,0,0,0.3);
+        }
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s;
+        }
+        .feature-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .feature-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; }
+        .feature-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+        .feature-card p { font-size: 0.9rem; color: #94a3b8; }
+
+        /* Rodapé */
+        footer { padding: 30px; text-align: center; font-size: 0.8rem; color: #64748b; }
+
+        /* Responsividade */
         @media (max-width: 768px) {
-            .sidebar { position: fixed; z-index: 100; height: 100%; transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); box-shadow: 4px 0 15px rgba(0,0,0,0.1); }
-            .mobile-toggle { display: block; }
-            .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; backdrop-filter: blur(2px);}
-            .overlay.active { display: block; }
-            .header { padding: 15px 20px; }
-            .content { padding: 20px; }
-            .grid { grid-template-columns: 1fr; }
+            .headline { font-size: 2rem; }
+            iframe { width: 100%; height: 500px; }
+            .btn-whatsapp { padding: 15px 30px; font-size: 1rem; width: 90%; justify-content: center; }
         }
     </style>
 </head>
 <body>
-    
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    
-    <!-- MENU LATERAL -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">WOLFF BOT</div>
-        <ul class="menu">
-            <li><a onclick="nav('dashboard')" class="active" id="nav-dashboard"><i>📊</i> Dashboard</a></li>
-            <li><a onclick="nav('meu-robo')" id="nav-meu-robo"><i>🤖</i> Meu Robô</a></li>
-            <li><a onclick="nav('mensagens')" id="nav-mensagens"><i>💬</i> Mensagens</a></li>
-            <li><a onclick="nav('aplicativos')" id="nav-aplicativos"><i>📱</i> Aplicativos</a></li>
-            <li><a onclick="nav('regras')" id="nav-regras"><i>⚙️</i> Regras</a></li>
-            <li><a onclick="nav('perfil')" id="nav-perfil"><i>👤</i> Meu Perfil</a></li>
-            <li style="margin-top: auto;"><a onclick="alert('Sessão encerrada com sucesso!')" style="color: #FCA5A5;"><i>🚪</i> Sair</a></li>
-        </ul>
-    </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="main">
-        <header class="header">
-            <button class="mobile-toggle" onclick="toggleMenu()">☰</button>
-            <div style="font-weight: 500; color: var(--text-muted);">Painel de Controle</div>
-            <div style="display: flex; gap: 8px; align-items: center; background: #F3F4F6; padding: 6px 12px; border-radius: 20px; border: 1px solid #E5E7EB;">
-                <span id="global-status" style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--success); box-shadow: 0 0 5px var(--success);"></span>
-                <span id="global-status-text" style="font-size: 13px; font-weight: 600;">Sistema Online</span>
-            </div>
-        </header>
+    <header>
+        <div class="logo">PlayDigital</div>
+    </header>
+
+    <section class="hero">
+        <h1 class="headline">O Melhor do Entretenimento na sua <span>Tela</span></h1>
+        <p class="subheadline">Filmes, séries e programação ao vivo em alta definição. Sem antenas, sem fidelidade e com suporte exclusivo.</p>
         
-        <div class="content">
-            
-            <!-- 1. DASHBOARD -->
-            <div id="dashboard" class="section active">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-                    <h1 class="section-title" style="margin: 0;">Visão Geral</h1>
-                    <button class="btn btn-primary" onclick="alert('Configurações do painel salvas!')">💾 Salvar Configurações</button>
-                </div>
-                
-                <div class="grid">
-                    <div class="card">
-                        <div class="card-title">Status do Robô</div>
-                        <div class="switch-wrapper" style="margin-top: 15px;">
-                            <span class="card-value" id="status-display" style="color: var(--success);">Online</span>
-                            <label class="switch">
-                                <input type="checkbox" checked id="bot-toggle" onchange="toggleBotStatus()">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-title">Aplicativos Conectados</div>
-                        <div class="card-value">3 / 4</div>
-                    </div>
-                    <div class="card">
-                        <div class="card-title">Mensagens Hoje</div>
-                        <div class="card-value">1.492</div>
-                    </div>
-                    <div class="card">
-                        <div class="card-title">Respostas Automáticas</div>
-                        <div class="card-value">1.380</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2. CONFIGURAÇÃO DO ROBÔ -->
-            <div id="meu-robo" class="section">
-                <h1 class="section-title">Configurações do Robô</h1>
-                <div class="card" style="max-width: 700px;">
-                    <div class="form-group">
-                        <label>Nome da Empresa</label>
-                        <input type="text" class="form-control" value="Empresa Exemplo LTDA">
-                    </div>
-                    <div class="form-group">
-                        <label>Nome do Robô</label>
-                        <input type="text" class="form-control" value="Wolff">
-                    </div>
-                    <div class="form-group">
-                        <label>Nome do Atendente (Humano)</label>
-                        <input type="text" class="form-control" value="Atendimento Principal">
-                    </div>
-                    <div class="form-group">
-                        <label>Mensagem de Boas-vindas</label>
-                        <textarea class="form-control">Olá! Sou o Wolff, assistente virtual. Como posso te ajudar hoje? Escolha uma das opções abaixo...</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Mensagem de Encerramento</label>
-                        <textarea class="form-control">Agradecemos o seu contato! Se precisar de mais alguma coisa, é só chamar. Tenha um ótimo dia!</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Mensagem Fora do Horário</label>
-                        <textarea class="form-control">No momento estamos fora do nosso horário de atendimento. Deixe sua mensagem e retornaremos assim que possível.</textarea>
-                    </div>
-                    <hr style="border:0; border-top: 1px solid var(--border); margin: 25px 0;">
-                    <button class="btn btn-primary" onclick="alert('Dados do seu robô foram atualizados com sucesso!')">Atualizar Dados do Robô</button>
-                </div>
-            </div>
-            
-            <!-- 3. APLICATIVOS -->
-            <div id="aplicativos" class="section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-                    <h1 class="section-title" style="margin: 0;">Aplicativos Integrados</h1>
-                    <button class="btn btn-danger" onclick="disableAllApps()">Desativar Todos</button>
-                </div>
-                
-                <div class="card" style="max-width: 700px; padding: 25px;">
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">Ligue ou desligue o robô individualmente em cada canal de atendimento.</p>
-                    
-                    <div class="app-item">
-                        <div class="app-info">🟢 WhatsApp Pessoal</div>
-                        <label class="switch"><input type="checkbox" class="app-toggle" checked><span class="slider"></span></label>
-                    </div>
-                    <div class="app-item">
-                        <div class="app-info">🟢 WhatsApp Business</div>
-                        <label class="switch"><input type="checkbox" class="app-toggle" checked><span class="slider"></span></label>
-                    </div>
-                    <div class="app-item">
-                        <div class="app-info">🔵 Telegram</div>
-                        <label class="switch"><input type="checkbox" class="app-toggle" checked><span class="slider"></span></label>
-                    </div>
-                    <div class="app-item">
-                        <div class="app-info">🟣 Outros Canais (Instagram/Messenger)</div>
-                        <label class="switch"><input type="checkbox" class="app-toggle"><span class="slider"></span></label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. REGRAS -->
-            <div id="regras" class="section">
-                <h1 class="section-title">Regras e Comportamentos</h1>
-                <div class="grid">
-                    <!-- Card 1 -->
-                    <div class="card">
-                        <h3 style="margin-bottom: 20px; color: var(--primary);">🤖 Lógicas do Robô</h3>
-                        
-                        <div class="switch-wrapper" style="margin-bottom: 20px;">
-                            <span>Não enviar mensagens repetidas</span>
-                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-                        </div>
-                        <div class="switch-wrapper" style="margin-bottom: 20px;">
-                            <span>Ativar respostas automáticas</span>
-                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-                        </div>
-                        <div class="switch-wrapper" style="margin-bottom: 20px;">
-                            <span>Pausar o robô (Modo Silencioso)</span>
-                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
-                        </div>
-                        <div class="switch-wrapper" style="margin-bottom: 20px;">
-                            <span>Permitir encaminhar p/ Humano</span>
-                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-                        </div>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="card">
-                        <h3 style="margin-bottom: 20px; color: var(--primary);">⏱️ Tempos e Limites</h3>
-                        
-                        <div class="form-group">
-                            <label>Esperar antes de responder (segundos)</label>
-                            <input type="number" class="form-control" value="3">
-                        </div>
-                        <div class="form-group">
-                            <label>Intervalo mínimo entre respostas (segundos)</label>
-                            <input type="number" class="form-control" value="5">
-                        </div>
-                        <div class="form-group">
-                            <label>Limite de mensagens por conversa</label>
-                            <input type="number" class="form-control" value="50">
-                        </div>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="card">
-                        <h3 style="margin-bottom: 20px; color: var(--primary);">🕒 Horário de Funcionamento</h3>
-                        
-                        <div class="form-group">
-                            <label>Início do Expediente</label>
-                            <input type="time" class="form-control" value="08:00">
-                        </div>
-                        <div class="form-group">
-                            <label>Fim do Expediente</label>
-                            <input type="time" class="form-control" value="18:00">
-                        </div>
-                        <div class="switch-wrapper" style="margin-top: 25px; border-top: 1px solid var(--border); padding-top: 15px;">
-                            <span>Atender finais de semana</span>
-                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-primary" onclick="alert('As regras do robô foram atualizadas e aplicadas!')">Salvar Regras do Robô</button>
-            </div>
-
-            <!-- 5. MENSAGENS PRONTAS -->
-            <div id="mensagens" class="section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-                    <h1 class="section-title" style="margin: 0;">Mensagens Prontas</h1>
-                    <button class="btn btn-success">+ Nova Mensagem</button>
-                </div>
-
-                <div class="card" style="max-width: 900px;">
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">Cadastre mensagens rápidas para utilizar em menus ou gatilhos específicos.</p>
-                    
-                    <div class="msg-item">
-                        <div class="msg-item-header">
-                            <span style="color: var(--primary);">📌 Saudação Inicial</span>
-                            <div>
-                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 13px;">Editar</button>
-                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 13px; color: var(--danger); border-color: var(--danger);">Excluir</button>
-                            </div>
-                        </div>
-                        <div class="msg-text">Olá, seja bem-vindo(a) ao nosso atendimento! Sobre o que deseja falar? Digite o número da opção desejada.</div>
-                    </div>
-
-                    <div class="msg-item">
-                        <div class="msg-item-header">
-                            <span style="color: var(--primary);">👩‍💻 Transferência para Humano</span>
-                            <div>
-                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 13px;">Editar</button>
-                            </div>
-                        </div>
-                        <div class="msg-text">Vou transferir você para um de nossos especialistas. Por favor, aguarde um instante na linha.</div>
-                    </div>
-
-                    <div class="msg-item">
-                        <div class="msg-item-header">
-                            <span style="color: var(--primary);">🌙 Aviso Fora do Horário</span>
-                            <div>
-                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 13px;">Editar</button>
-                            </div>
-                        </div>
-                        <div class="msg-text">Nosso horário de atendimento é de segunda a sexta, das 08h às 18h. Deixe sua mensagem detalhada que responderemos no próximo dia útil!</div>
-                    </div>
-
-                    <div class="msg-item">
-                        <div class="msg-item-header">
-                            <span style="color: var(--primary);">👋 Mensagem de Encerramento</span>
-                            <div>
-                                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 13px;">Editar</button>
-                            </div>
-                        </div>
-                        <div class="msg-text">Atendimento encerrado com sucesso. Muito obrigado pelo contato e tenha um ótimo dia!</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 6. MEU PERFIL -->
-            <div id="perfil" class="section">
-                <h1 class="section-title">Meu Perfil de Acesso</h1>
-                <div class="card" style="max-width: 600px;">
-                    <div class="form-group">
-                        <label>Nome Completo</label>
-                        <input type="text" class="form-control" value="Administrador Sistema">
-                    </div>
-                    <div class="form-group">
-                        <label>E-mail de Login</label>
-                        <input type="email" class="form-control" value="admin@wolffbot.com.br">
-                    </div>
-                    <hr style="border:0; border-top: 1px solid var(--border); margin: 25px 0;">
-                    <div class="form-group">
-                        <label>Alterar Senha</label>
-                        <input type="password" class="form-control" placeholder="Digite apenas se desejar alterar">
-                    </div>
-                    <div class="form-group">
-                        <label>Confirmar Nova Senha</label>
-                        <input type="password" class="form-control" placeholder="Confirme a nova senha">
-                    </div>
-                    <button class="btn btn-primary" onclick="alert('Perfil atualizado com sucesso!')">Atualizar Dados da Conta</button>
-                </div>
-            </div>
-
+        <!-- O Vídeo do Shorts que você mandou já está embutido aqui -->
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/HR12aYMi_I8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-    </main>
 
-    <script>
-        // Função de Navegação
-        function nav(sectionId) {
-            // Oculta todas as seções
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-            // Remove a classe active dos links do menu
-            document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
-            
-            // Mostra a seção selecionada
-            document.getElementById(sectionId).classList.add('active');
-            document.getElementById('nav-' + sectionId).classList.add('active');
-            
-            // No mobile, fecha o menu após clicar
-            if (window.innerWidth <= 768) {
-                toggleMenu();
-            }
-        }
+        <!-- COLOQUE SEU NÚMERO AQUI (Substitua o 5511999999999 pelo seu numero com DDD) -->
+        <a href="https://wa.me/5511999999999?text=Olá,%20vi%20o%20site%20e%20gostaria%20de%20um%20teste%20grátis!" target="_blank" class="btn-whatsapp">
+            <i class="fab fa-whatsapp"></i> Liberar Meu Acesso
+        </a>
+    </section>
 
-        // Função de abrir/fechar Menu Mobile
-        function toggleMenu() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('active');
-        }
+    <section class="features">
+        <div class="feature-card">
+            <i class="fas fa-film"></i>
+            <h3>Catálogo Completo</h3>
+            <p>Milhares de filmes e séries atualizados diariamente para você maratonar.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-bolt"></i>
+            <h3>Alta Estabilidade</h3>
+            <p>Servidores premium de alta velocidade. Assista sem travamentos, 24h por dia.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Em Qualquer Lugar</h3>
+            <p>Funciona na sua Smart TV, TV Box, Celular ou Computador. Instalação em 2 minutos.</p>
+        </div>
+    </section>
 
-        // Lógica de Ativar/Desativar Robô (Status Visual)
-        function toggleBotStatus() {
-            const toggle = document.getElementById('bot-toggle');
-            const display = document.getElementById('status-display');
-            const globalStatus = document.getElementById('global-status');
-            const globalText = document.getElementById('global-status-text');
+    <footer>
+        <p>&copy; 2024 PlayDigital. Todos os direitos reservados. Este é um aplicativo de reprodução de mídia digital.</p>
+    </footer>
 
-            if(toggle.checked) {
-                display.textContent = 'Online';
-                display.style.color = 'var(--success)';
-                globalStatus.style.background = 'var(--success)';
-                globalStatus.style.boxShadow = '0 0 5px var(--success)';
-                globalText.textContent = 'Sistema Online';
-            } else {
-                display.textContent = 'Offline';
-                display.style.color = 'var(--danger)';
-                globalStatus.style.background = 'var(--danger)';
-                globalStatus.style.boxShadow = '0 0 5px var(--danger)';
-                globalText.textContent = 'Sistema Offline (Pausado)';
-            }
-        }
-
-        // Lógica para desativar todos os apps
-        function disableAllApps() {
-            if(confirm("Tem certeza que deseja desativar o robô em todos os aplicativos?")) {
-                const toggles = document.querySelectorAll('.app-toggle');
-                toggles.forEach(t => t.checked = false);
-                alert('Todos os aplicativos foram desativados com sucesso!');
-            }
-        }
-    </script>
 </body>
-</html>"""
-
-with open('wolff_bot_prototipo.html', 'w', encoding='utf-8') as f:
-    f.write(html_content)
-    
-print("File wolff_bot_prototipo.html has been generated.")
+</html>
