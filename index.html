@@ -53,7 +53,7 @@
         .headline span { color: var(--secondary); }
         .subheadline { font-size: 1.1rem; color: #cbd5e1; margin-bottom: 40px; max-width: 600px; }
 
-        /* Container do Vídeo (Estilo Vidro/Glassmorphism) */
+        /* Container do Vídeo */
         .video-container {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -65,7 +65,6 @@
             animation: float 6s ease-in-out infinite;
         }
         
-        /* Ajuste do iframe para Shorts (vertical) */
         iframe {
             width: 315px;
             height: 560px;
@@ -89,10 +88,11 @@
             animation: pulse 2s infinite;
             transition: all 0.3s;
             box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            margin-bottom: 20px;
         }
         .btn-whatsapp:hover { filter: brightness(1.1); transform: scale(1.05); }
 
-        /* Benefícios (Sem preço, focando na qualidade) */
+        /* Benefícios */
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -113,6 +113,55 @@
         .feature-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
         .feature-card p { font-size: 0.9rem; color: #94a3b8; }
 
+        /* Estilo dos Comentários do YouTube */
+        .testimonials {
+            padding: 50px 10%;
+            background: var(--bg-color);
+        }
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: #fff;
+        }
+        .yt-comment {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .yt-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+        /* Cores variadas pros avatares */
+        .bg-1 { background-color: #005a9e; }
+        .bg-2 { background-color: #b30059; }
+        .bg-3 { background-color: #008033; }
+        
+        .yt-content { display: flex; flex-direction: column; gap: 5px; width: 100%; }
+        .yt-header { font-size: 0.85rem; color: #aaa; }
+        .yt-username { color: #f1f1f1; font-weight: 600; margin-right: 5px; }
+        .yt-text { font-size: 0.95rem; color: #fff; line-height: 1.5; margin-bottom: 8px; }
+        .yt-actions { display: flex; gap: 20px; color: #aaa; font-size: 0.9rem; align-items: center; }
+        .yt-actions i { cursor: pointer; transition: color 0.2s; }
+        .yt-actions i:hover { color: #fff; }
+        .yt-likes { display: flex; align-items: center; gap: 6px; }
+
         /* Rodapé */
         footer { padding: 30px; text-align: center; font-size: 0.8rem; color: #64748b; }
 
@@ -121,6 +170,7 @@
             .headline { font-size: 2rem; }
             iframe { width: 100%; height: 500px; }
             .btn-whatsapp { padding: 15px 30px; font-size: 1rem; width: 90%; justify-content: center; }
+            .yt-comment { flex-direction: column; }
         }
     </style>
 </head>
@@ -134,15 +184,61 @@
         <h1 class="headline">O Melhor do Entretenimento na sua <span>Tela</span></h1>
         <p class="subheadline">Filmes, séries e programação ao vivo em alta definição. Sem antenas, sem fidelidade e com suporte exclusivo.</p>
         
-        <!-- O Vídeo do Shorts que você mandou já está embutido aqui -->
         <div class="video-container">
             <iframe src="https://www.youtube.com/embed/HR12aYMi_I8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
 
-        <!-- COLOQUE SEU NÚMERO AQUI (Substitua o 5511999999999 pelo seu numero com DDD) -->
-        <a href="https://wa.me/5511999999999?text=Olá,%20vi%20o%20site%20e%20gostaria%20de%20um%20teste%20grátis!" target="_blank" class="btn-whatsapp">
+        <a href="https://wa.me/5561981655652?text=Olá,%20vi%20o%20site%20e%20gostaria%20de%20conhecer%20os%20planos%20para%20assinar!" target="_blank" class="btn-whatsapp">
             <i class="fab fa-whatsapp"></i> Liberar Meu Acesso
         </a>
+    </section>
+
+    <!-- NOVA SEÇÃO: Comentários Estilo YouTube -->
+    <section class="testimonials">
+        <h2>O que estão dizendo no YouTube</h2>
+        
+        <!-- Comentário 1 -->
+        <div class="yt-comment">
+            <div class="yt-avatar bg-1">C</div>
+            <div class="yt-content">
+                <div class="yt-header"><span class="yt-username">@carlos_silva</span> • 1 dia atrás</div>
+                <div class="yt-text">Mano, instalei aqui e rodou liso demais na minha TV. Melhor aplicativo que eu já assinei, não trava nada no futebol!</div>
+                <div class="yt-actions">
+                    <div class="yt-likes"><i class="far fa-thumbs-up"></i> 142</div>
+                    <div><i class="far fa-thumbs-down"></i></div>
+                    <div>Responder</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comentário 2 -->
+        <div class="yt-comment">
+            <div class="yt-avatar bg-2">M</div>
+            <div class="yt-content">
+                <div class="yt-header"><span class="yt-username">@mari.souza99</span> • 3 dias atrás</div>
+                <div class="yt-text">Top demais! Aplicativo muito fácil de mexer, até minha mãe conseguiu usar pra ver as novelas dela kkkk Recomendo muito.</div>
+                <div class="yt-actions">
+                    <div class="yt-likes"><i class="far fa-thumbs-up"></i> 89</div>
+                    <div><i class="far fa-thumbs-down"></i></div>
+                    <div>Responder</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comentário 3 -->
+        <div class="yt-comment">
+            <div class="yt-avatar bg-3">R</div>
+            <div class="yt-content">
+                <div class="yt-header"><span class="yt-username">@rodrigo_gamer</span> • 1 semana atrás</div>
+                <div class="yt-text">Atendimento muito rápido no WhatsApp, liberou meu acesso na mesma hora. Qualidade de imagem absurda em 4K. Vlw!!</div>
+                <div class="yt-actions">
+                    <div class="yt-likes"><i class="far fa-thumbs-up"></i> 256</div>
+                    <div><i class="far fa-thumbs-down"></i></div>
+                    <div>Responder</div>
+                </div>
+            </div>
+        </div>
+
     </section>
 
     <section class="features">
@@ -159,7 +255,7 @@
         <div class="feature-card">
             <i class="fas fa-mobile-alt"></i>
             <h3>Em Qualquer Lugar</h3>
-            <p>Funciona na sua Smart TV, TV Box, Celular ou Computador. Instalação em 2 minutos.</p>
+            <p>Funciona na sua Smart TV, TV Box, Celular ou Computador. Instalação super rápida.</p>
         </div>
     </section>
 
